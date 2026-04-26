@@ -1,2 +1,16 @@
+*.local
+.env.local
+.env.dev
+.env.prod
+.DS_Store
+node_modules/
+vendor/
+.venv/
+__pycache__/
+.pytest_cache/
+.coverage
+dist/
+build/
 .idea/
-*.iml
+.vscode/
+*.log
