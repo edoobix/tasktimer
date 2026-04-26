@@ -2,7 +2,7 @@
   <div>
     <h1>Login</h1>
     <form @submit.prevent="handleLogin">
-      <input v-model="email" type="email" placeholder="Email" />
+      <input v-model="login" type="text" placeholder="Login" />
       <input v-model="password" type="password" placeholder="Password" />
       <button type="submit">Enter</button>
     </form>
@@ -10,18 +10,21 @@
 </template>
 
 <script setup>
-const email = ref('')
+const login = ref('')
 const password = ref('')
 const auth = useAuthStore()
 
 async function handleLogin() {
   try {
+    // Обратите внимание на URL, проверьте что он соответствует вашему security.yaml
     const data = await $fetch('http://localhost/api/login_check', {
       method: 'POST',
-      body: { username: email.value, password: password.value }
+      body: { login: login.value, password: password.value }
     })
 
-    auth.setToken(data.token)
+    // Сохраняем оба токена
+    auth.setTokens(data.token, data.refresh_token)
+
     await navigateTo('/')
   } catch (e) {
     alert('Invalid credentials')
