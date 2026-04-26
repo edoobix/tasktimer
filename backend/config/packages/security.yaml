@@ -9,19 +9,22 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property: login
+        # used to reload user from session & other features (e.g. switch_user)
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        # 1. Файрвол для получения токена (Login)
+        # Маршрут для получения токена
         login:
             pattern: ^/api/login
             stateless: true
             json_login:
                 check_path: /api/login_check
+                username_path: login
+                password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
@@ -33,10 +36,11 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        #- { path: ^/api/doc, roles: ROLE_ADMIN }
+        - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register,    roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/api/v1, roles: ROLE_USER }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
