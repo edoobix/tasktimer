@@ -16,12 +16,15 @@ const auth = useAuthStore()
 
 async function handleLogin() {
   try {
+    // Обратите внимание на URL, проверьте что он соответствует вашему security.yaml
     const data = await $fetch('http://localhost/api/login_check', {
       method: 'POST',
       body: { login: login.value, password: password.value }
     })
 
-    auth.setToken(data.token)
+    // Сохраняем оба токена
+    auth.setTokens(data.token, data.refresh_token)
+
     await navigateTo('/')
   } catch (e) {
     alert('Invalid credentials')

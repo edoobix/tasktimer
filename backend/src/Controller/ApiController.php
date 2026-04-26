@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ApiController extends AbstractController
 {
     #[Route('/tasks', name: 'app_tasks', methods: ['GET'])]
+    #[OA\Tag(name: 'Задачи')]
     #[OA\Get(
         summary: 'Получить все задачи',
         responses: [
