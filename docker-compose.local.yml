@@ -54,7 +54,10 @@ services:
     volumes:
       - ./frontend:/src
       - /src/.nuxt
-    command: sh -c "npm run dev"
+      - /src/node_modules
+    ports:
+      - "3000:3000" # Проброс порта
+    command: sh -c "npm install && npm run dev"
     networks:
       - tasktimer_net
 
