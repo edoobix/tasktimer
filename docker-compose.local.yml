@@ -1,4 +1,4 @@
-version: '3.9'
+# version: '3.9'
 
 services:
   db:
@@ -51,8 +51,8 @@ services:
     working_dir: /src
     volumes:
       - ./frontend:/src
-    command: sh -c "npm run dev" # npm install &&
-    #command: tail -f /dev/null
+      - /src/.nuxt
+    command: sh -c "npm run dev"
     networks:
       - tasktimer_net
 
