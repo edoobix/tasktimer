@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Api\Auth;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use OpenApi\Attributes as OA;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class AuthController extends AbstractController

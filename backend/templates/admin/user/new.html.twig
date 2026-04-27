@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование пользователя {{ user.login }}{% endblock %}
+
+{% block body %}
+    {% include('./admin/user/_partials/form.html.twig') with { form, button : 'Создать' } %}
+{% endblock %}

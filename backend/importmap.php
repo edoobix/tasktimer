@@ -25,4 +25,11 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'admin' => [
+        'path' => './assets/js/admin.js',
+        'entrypoint' => true,
+    ],
+    'jquery' => [
+        'version' => '4.0.0',
+    ],
 ];

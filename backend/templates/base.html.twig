@@ -8,7 +8,7 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {% block importmap %}{{ importmap(['app', 'admin']) }}{% endblock %}
         {% endblock %}
 
         {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
@@ -19,6 +19,8 @@
         {% endif %}
     </head>
     <body>
+        {% include('./_partials/header.html.twig') %}
         {% block body %}{% endblock %}
+        {% include('./_partials/footer.html.twig') %}
     </body>
 </html>

@@ -1,0 +1,11 @@
+{% if pageCount > 1 %}
+    <nav>
+        <ul class="pagination">
+            {% for i in 1..pageCount %}
+                <li class="{{ i == currentPage ? 'active' : '' }}">
+                    <a href="{{ path('admin_users_list', {page: i}) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

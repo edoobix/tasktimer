@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controller;
+namespace App\Api\Task;
 
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use OpenApi\Attributes as OA;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api')]
-final class ApiController extends AbstractController
+final class TaskController extends AbstractController
 {
     #[Route('/tasks', name: 'app_tasks', methods: ['GET'])]
     #[OA\Tag(name: 'Задачи')]

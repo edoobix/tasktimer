@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование пользователя {{ user.login }}{% endblock %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Логин</th>
+            <th>Роли</th>
+            <th>Действия</th>
+        </tr>
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.login }}</td>
+            <td>
+                {% for role in user.roles %}
+                    {{ enum('App\\Enum\\UserRoleEnum').tryFrom(role).getLabel() }}{{ loop.last ? '' : ', ' }}
+                {% endfor %}
+            </td>
+            <td><a href="{{ path('app_user_edit', { id : user.id }) }}">Изменить</a></td>
+        </tr>
+    </table>
+{% endblock %}
