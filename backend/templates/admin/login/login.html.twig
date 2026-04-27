@@ -1,0 +1,16 @@
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <h1>Вход в админ-панель</h1>
+    <label for="inputLogin">Логин</label>
+    <input type="text" name="_username" value="{{ last_username }}" id="inputLogin" required autofocus>
+
+    <label for="inputPassword">Пароль</label>
+    <input type="password" name="_password" id="inputPassword" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button type="submit">Войти</button>
+</form>

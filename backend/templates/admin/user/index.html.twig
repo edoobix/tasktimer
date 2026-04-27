@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Управление пользователями{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_user_new') }}">Создать нового</a>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Логин</th>
+            <th>Роли</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><a href="{{ path('app_user_show', { id : user.id }) }}">{{ user.login }}</a></td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ enum('App\\Enum\\UserRoleEnum').tryFrom(role).getLabel() }}{{ loop.last ? '' : ', ' }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
