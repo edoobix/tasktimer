@@ -2,6 +2,20 @@
 
 {% block title %}Редактирование пользователя {{ user.login }}{% endblock %}
 
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{{ path('app_user_list') }}">Пользователи</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Новый пользователь</li>
+{% endblock %}
+
 {% block body %}
-    {% include('./admin/user/_partials/form.html.twig') with { form, button : 'Создать' } %}
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h4>Создание пользователя</h4>
+    </div>
+    <div class="card-body">
+        {% include('./admin/user/_partials/form.html.twig') with { form, button : 'Создать' } %}
+    </div>
+</div>
 {% endblock %}

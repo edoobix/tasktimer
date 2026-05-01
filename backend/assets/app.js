@@ -9,5 +9,9 @@ import './styles/app.css';
 
 import './styles/admin.css';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.min.css';
+
 import $ from 'jquery';
 window.jQuery = window.$ = $;

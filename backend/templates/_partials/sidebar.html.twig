@@ -1,0 +1,34 @@
+<aside class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span class="fs-4">TaskTimer Admin</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="{{ path('app_dashboard') }}"
+               class="nav-link {{ app.request.get('_route') == 'app_dashboard' ? 'active' : 'text-white' }}"
+               aria-current="page">
+                <i class="bi bi-house"></i>
+                Дашборд
+            </a></li>
+        <li><a href="{{ path('app_user_list') }}"
+               class="nav-link {{ app.request.get('_route') starts with 'app_user_' ? 'active' : 'text-white' }}">
+                <i class="bi bi-people"></i>
+                Пользователи
+            </a></li>
+    </ul>
+    <hr>
+    <div class="">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            {#            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">#}
+            <strong>Admin</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="">
+            <li><a class="dropdown-item disabled" href="/">Профиль</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="{{ path('admin_logout') }}">Выход</a></li>
+        </ul>
+    </div>
+</aside>

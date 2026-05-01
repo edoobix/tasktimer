@@ -2,23 +2,36 @@
 
 {% block title %}Редактирование пользователя {{ user.login }}{% endblock %}
 
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{{ path('app_user_list') }}">Пользователи</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ user.login }}</li>
+{% endblock %}
+
 {% block body %}
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Логин</th>
-            <th>Роли</th>
-            <th>Действия</th>
-        </tr>
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.login }}</td>
-            <td>
-                {% for role in user.roles %}
-                    {{ enum('App\\Enum\\UserRoleEnum').tryFrom(role).getLabel() }}{{ loop.last ? '' : ', ' }}
-                {% endfor %}
-            </td>
-            <td><a href="{{ path('app_user_edit', { id : user.id }) }}">Изменить</a></td>
-        </tr>
-    </table>
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h4>Просмотр пользователя {{ user.login }}</h4>
+        <a href="{{ path('app_user_edit', { id : user.id }) }}" class="btn btn-primary">Редактировать</a>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Логин</th>
+                <th>Роли</th>
+            </tr>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.login }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ enum('App\\Enum\\UserRoleEnum').tryFrom(role).getLabel() }}{{ loop.last ? '' : ', ' }}
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 {% endblock %}
