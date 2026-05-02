@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -32,6 +34,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @var Collection<int, Department>
+     */
+    #[ORM\OneToMany(targetEntity: Department::class, mappedBy: 'director')]
+    private Collection $ownedDepartments;
+
+    /**
+     * @var Collection<int, Department>
+     */
+    #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'users')]
+    private Collection $departments;
+
+    public function __construct()
+    {
+        $this->ownedDepartments = new ArrayCollection();
+        $this->departments = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -56,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->login;
+        return (string)$this->login;
     }
 
     /**
@@ -101,8 +121,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function __serialize(): array
     {
-        $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        $data = (array)$this;
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
     }
@@ -111,5 +131,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+    /**
+     * @return Collection<int, Department>
+     */
+    public function getOwnedDepartments(): Collection
+    {
+        return $this->ownedDepartments;
+    }
+
+    public function addOwnedDepartment(Department $ownedDepartment): static
+    {
+        if (!$this->ownedDepartments->contains($ownedDepartment)) {
+            $this->ownedDepartments->add($ownedDepartment);
+            $ownedDepartment->setDirector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnedDepartment(Department $ownedDepartment): static
+    {
+        if ($this->ownedDepartments->removeElement($ownedDepartment)) {
+            // set the owning side to null (unless already changed)
+            if ($ownedDepartment->getDirector() === $this) {
+                $ownedDepartment->setDirector(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Department>
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    public function addDepartment(Department $department): static
+    {
+        if (!$this->departments->contains($department)) {
+            $this->departments->add($department);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartment(Department $department): static
+    {
+        $this->departments->removeElement($department);
+
+        return $this;
     }
 }

@@ -37,7 +37,7 @@ composer-install: ## Установить PHP зависимости
 	$(DEX) $(PHP_SERVICE) composer install
 
 diff: ## Создать миграцию (разница между Entity и БД)
-	$(DEX) $(PHP_SERVICE) php bin/console make:migration
+	$(DEX) $(PHP_SERVICE) php bin/console doctrine:migrations:diff
 
 migrate: ## Применить все миграции
 	$(DEX) $(PHP_SERVICE) php bin/console doctrine:migrations:migrate --no-interaction

@@ -31,6 +31,9 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% if pageCount > 1 %}
+                {% include('./_partials/pagination.html.twig') %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

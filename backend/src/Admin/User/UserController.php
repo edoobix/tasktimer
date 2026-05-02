@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -17,8 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user_list', methods: ['GET'])]
-    public function index(PaginationRequest $paginationRequest, UserRepository $userRepository): Response
+    public function index(Request $request, #[MapQueryString] PaginationRequest $paginationRequest, UserRepository $userRepository): Response
     {
+        $paginationRequest->limit = 1;
         $filters = [];
         $paginator = $userRepository->getPaginatedUsers($paginationRequest, $filters);
         $total = $paginator->count();
@@ -28,7 +30,9 @@ final class UserController extends AbstractController
             'total' => $total,
             'limit' => $paginationRequest->limit,
             'page' => $paginationRequest->page,
-            'pageCount' => ceil($total / $paginationRequest->limit) ?? 1,
+            'pageCount' => (int) max(1, ceil($total / $paginationRequest->limit)),
+            'routeName' => 'app_user_list',
+            'routeParams' => $request->query->all(),
         ]);
     }
 

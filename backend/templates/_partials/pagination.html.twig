@@ -1,11 +1,66 @@
-{% if pageCount > 1 %}
-    <nav>
-        <ul class="pagination">
-            {% for i in 1..pageCount %}
-                <li class="{{ i == currentPage ? 'active' : '' }}">
-                    <a href="{{ path('admin_users_list', {page: i}) }}">{{ i }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </nav>
-{% endif %}
+{#
+Параметры, которые должны прийти из контроллера:
+page - текущая страница
+pageCount - общее кол-во страниц
+routeName - название роута для генерации ссылок
+routeParams - (опционально) дополнительные параметры (фильтры, сортировка)
+#}
+
+{% set neighborCanShow = 2 %} {# Сколько страниц показывать по бокам от текущей #}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+
+        {# --- Кнопка НАЗАД --- #}
+        <li class="page-item {{ page <= 1 ? 'disabled' : '' }}">
+            <a class="page-link"
+               href="{{ page > 1 ? path(routeName, routeParams|merge({page: page - 1})) : '#' }}"
+               tabindex="-1">Назад</a>
+        </li>
+
+        {# --- Первая страница (всегда видна) --- #}
+        {% if page > (neighborCanShow + 1) %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(routeName, routeParams|merge({page: 1})) }}">1</a>
+            </li>
+            {% if page > (neighborCanShow + 2) %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endif %}
+
+        {# --- Цикл по страницам вокруг текущей --- #}
+        {% for i in max(1, page - neighborCanShow)..min(pageCount, page + neighborCanShow) %}
+            <li class="page-item {{ i == page ? 'active' : '' }}">
+                <a class="page-link" href="{{ path(routeName, routeParams|merge({page: i})) }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+
+        {# --- Последняя страница (всегда видна) --- #}
+        {% if page < (pageCount - neighborCanShow) %}
+            {% if page < (pageCount - neighborCanShow - 1) %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path(routeName, routeParams|merge({page: pageCount})) }}">{{ pageCount }}</a>
+            </li>
+        {% endif %}
+
+        {# --- Кнопка ВПЕРЕД --- #}
+        <li class="page-item {{ page >= pageCount ? 'disabled' : '' }}">
+            <a class="page-link"
+               href="{{ page < pageCount ? path(routeName, routeParams|merge({page: page + 1})) : '#' }}">Вперед</a>
+        </li>
+
+    </ul>
+</nav>
+{#{% if pageCount > 1 %}#}
+{#    <nav>#}
+{#        <ul class="pagination">#}
+{#            {% for i in 1..pageCount %}#}
+{#                <li class="{{ i == currentPage ? 'active' : '' }}">#}
+{#                    <a href="{{ path('admin_users_list', {page: i}) }}">{{ i }}</a>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    </nav>#}
+{#{% endif %}#}
