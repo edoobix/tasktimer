@@ -1,0 +1,20 @@
+{% macro role_badge(roleName) %}
+    {% set roleEnum = enum('App\\Enum\\UserRoleEnum').tryFrom(roleName) %}
+    {% if roleEnum %}
+        <span class="badge {{ roleEnum.getBadgeClass() }}">
+            {{ roleEnum.getLabel() }}
+        </span>
+    {% else %}
+        <span class="badge bg-secondary">{{ roleName }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% macro position_badge(positionEnum) %}
+    {% if positionEnum %}
+        <span class="badge {{ positionEnum.getBadgeClass() }}">
+            {{ positionEnum.getLabel() }}
+        </span>
+    {% else %}
+        <span>Не задана</span>
+    {% endif %}
+{% endmacro %}

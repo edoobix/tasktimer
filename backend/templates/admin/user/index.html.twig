@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import "_macros/_macros.html.twig" as ui %}
+
 {% block title %}Управление пользователями{% endblock %}
 
 {% block breadcrumbs %}
@@ -7,10 +9,12 @@
 {% endblock %}
 
 {% block body %}
+    {% include 'admin/user/_partials/filter.html.twig' %}
+
     <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h4>Список пользователей</h4>
-            <a href="{{ path('app_user_new') }}" class="btn btn-primary">Создать нового</a>
+            <a href="{{ path('app_user_new') }}" class="btn btn-primary">Создать</a>
         </div>
         <div class="card-body">
             <table class="table">
@@ -18,6 +22,8 @@
                     <th>ID</th>
                     <th>Логин</th>
                     <th>Роли</th>
+                    <th>Должность</th>
+                    <th>Отделы</th>
                 </tr>
                 {% for user in users %}
                     <tr>
@@ -25,12 +31,21 @@
                         <td><a href="{{ path('app_user_show', { id : user.id }) }}">{{ user.login }}</a></td>
                         <td>
                             {% for role in user.roles %}
-                                {{ enum('App\\Enum\\UserRoleEnum').tryFrom(role).getLabel() }}{{ loop.last ? '' : ', ' }}
+                                {{ ui.role_badge(role) }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ ui.position_badge(user.position) }}</td>
+                        <td>
+                            {% for department in user.departments %}
+                                {{ department.name }}{{ loop.last ? '' : ', ' }}
+                            {% else %}
+                                Не заданы
                             {% endfor %}
                         </td>
                     </tr>
                 {% endfor %}
             </table>
+
             {% if pageCount > 1 %}
                 {% include('./_partials/pagination.html.twig') %}
             {% endif %}

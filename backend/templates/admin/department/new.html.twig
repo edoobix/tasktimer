@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создание отдела{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{{ path('app_department_list') }}">Отделы</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Новый отдел</li>
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h4>Создание отдела</h4>
+        </div>
+        <div class="card-body">
+            {% include('./admin/department/_partials/form.html.twig') with { form, button : 'Создать' } %}
+        </div>
+    </div>
+{% endblock %}

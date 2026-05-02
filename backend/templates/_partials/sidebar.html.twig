@@ -16,6 +16,11 @@
                 <i class="bi bi-people"></i>
                 Пользователи
             </a></li>
+        <li><a href="{{ path('app_department_list') }}"
+               class="nav-link {{ app.request.get('_route') starts with 'app_department_' ? 'active' : 'text-white' }}">
+                <i class="bi bi-building"></i>
+                Отделы
+            </a></li>
     </ul>
     <hr>
     <div class="">

@@ -16,4 +16,13 @@ enum UserPositionEnum: string
             self::SECRETARY => 'Секретарь',
         };
     }
+
+    public function getBadgeClass(): string
+    {
+        return match($this) {
+            self::DIRECTOR => 'bg-danger',
+            self::SECRETARY => 'bg-success',
+            default => 'bg-secondary',
+        };
+    }
 }
