@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Управление отделами{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">Отделы</li>
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h4>Список отделов</h4>
+            <a href="{{ path('app_department_new') }}" class="btn btn-primary">Создать</a>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Руководитель</th>
+                </tr>
+                {% for department in departments %}
+                    <tr>
+                        <td>{{ department.id }}</td>
+                        <td><a href="{{ path('app_department_show', { id : department.id }) }}">{{ department.name }}</a></td>
+                        <td><a href="{{ path('app_user_show', { id : department.director.id }) }}">{{ department.director.login }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            {% if pageCount > 1 %}
+                {% include('./_partials/pagination.html.twig') %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

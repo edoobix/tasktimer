@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Просмотр отдела {{ department.name }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{{ path('app_department_list') }}">Отделы</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ department.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="col-md-6 col-lg-4 g-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light d-flex align-items-center justify-content-between py-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-circle me-2"></i>{{ department.name }}
+                    <small class="text-muted">#{{ department.id }}</small>
+                </h5>
+                <a href="{{ path('app_department_edit', { id : department.id }) }}" class="btn btn-sm btn-outline-primary">
+                    Редактировать
+                </a>
+            </div>
+            <div class="card-body">
+                <strong>Руководитель: </strong> <a href="{{ path('app_user_show', { id : department.director.id }) }}">{{ department.director.login }}</a>
+                <strong>Сотрудники: </strong>
+                {% for employee in department.users %}
+                    <a href="{{ path('app_user_show', { id : employee.id }) }}">{{ employee.login }}</a><br>
+                {% else %}
+                    Нет сотрудников
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

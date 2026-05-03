@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.director) }}
+    {{ form_row(form.users) }}
+    <button type="submit" class="btn btn-primary">{{ button|default('Сохранить') }}</button>
+{{ form_end(form) }}

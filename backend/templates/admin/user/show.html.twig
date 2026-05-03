@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Редактирование пользователя {{ user.login }}{% endblock %}
+{% import "_macros/_macros.html.twig" as ui %}
+
+{% block title %}Просмотр пользователя {{ user.login }}{% endblock %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item">
@@ -10,28 +12,48 @@
 {% endblock %}
 
 {% block body %}
-<div class="card">
-    <div class="card-header d-flex align-items-center justify-content-between">
-        <h4>Просмотр пользователя {{ user.login }}</h4>
-        <a href="{{ path('app_user_edit', { id : user.id }) }}" class="btn btn-primary">Редактировать</a>
+    <div class="col-md-6 col-lg-4 g-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light d-flex align-items-center justify-content-between py-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-circle me-2"></i>{{ user.login }}
+                    <small class="text-muted">#{{ user.id }}</small>
+                </h5>
+                <a href="{{ path('app_user_edit', { id : user.id }) }}" class="btn btn-sm btn-outline-primary">
+                    Редактировать
+                </a>
+            </div>
+
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="text-muted">Должность:</span>
+                        <span class="fw-bold">
+                        {{ ui.position_badge(user.position) }}
+                    </span>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="text-muted mb-2">Отделы:</div>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for department in user.departments %}
+                                <span class="badge rounded-pill bg-info text-dark border">{{ department.name }}</span>
+                            {% else %}
+                                <span class="text-muted small italic">Не заданы</span>
+                            {% endfor %}
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="text-muted mb-2">Роли:</div>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for role in user.roles %}
+                                {{ ui.role_badge(role) }}
+                            {% endfor %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <th>Логин</th>
-                <th>Роли</th>
-            </tr>
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.login }}</td>
-                <td>
-                    {% for role in user.roles %}
-                        {{ enum('App\\Enum\\UserRoleEnum').tryFrom(role).getLabel() }}{{ loop.last ? '' : ', ' }}
-                    {% endfor %}
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
 {% endblock %}

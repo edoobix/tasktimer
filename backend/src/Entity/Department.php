@@ -18,14 +18,14 @@ class Department
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'departments')]
+    #[ORM\ManyToOne(inversedBy: 'ownedDepartments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $director = null;
 
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'department')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'departments')]
     private Collection $users;
 
     public function __construct()

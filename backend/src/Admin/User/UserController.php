@@ -20,10 +20,10 @@ final class UserController extends AbstractController
     #[Route('/user', name: 'app_user_list', methods: ['GET'])]
     public function index(Request $request, #[MapQueryString] PaginationRequest $paginationRequest, UserRepository $userRepository): Response
     {
-        $paginationRequest->limit = 1;
         $filters = [];
         $paginator = $userRepository->getPaginatedUsers($paginationRequest, $filters);
         $total = $paginator->count();
+        $filtersForm = [];
 
         return $this->render('admin/user/index.html.twig', [
             'users' => $paginator,
@@ -33,6 +33,7 @@ final class UserController extends AbstractController
             'pageCount' => (int) max(1, ceil($total / $paginationRequest->limit)),
             'routeName' => 'app_user_list',
             'routeParams' => $request->query->all(),
+            'filtersForm' => $filtersForm,
         ]);
     }
 

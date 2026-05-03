@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260502182500 extends AbstractMigration
+final class Version20260502193629 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -28,6 +28,8 @@ final class Version20260502182500 extends AbstractMigration
         $this->addSql('ALTER TABLE department ADD CONSTRAINT FK_CD1DE18A899FB366 FOREIGN KEY (director_id) REFERENCES "user" (id) NOT DEFERRABLE');
         $this->addSql('ALTER TABLE user_department ADD CONSTRAINT FK_6A7A2766A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE user_department ADD CONSTRAINT FK_6A7A2766AE80F5DF FOREIGN KEY (department_id) REFERENCES department (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE "user" ADD position VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE "user" ADD number INT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -38,5 +40,7 @@ final class Version20260502182500 extends AbstractMigration
         $this->addSql('ALTER TABLE user_department DROP CONSTRAINT FK_6A7A2766AE80F5DF');
         $this->addSql('DROP TABLE department');
         $this->addSql('DROP TABLE user_department');
+        $this->addSql('ALTER TABLE "user" DROP position');
+        $this->addSql('ALTER TABLE "user" DROP number');
     }
 }

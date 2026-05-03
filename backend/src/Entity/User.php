@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\UserPositionEnum;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -45,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'users')]
     private Collection $departments;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?UserPositionEnum $position = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $number = null;
 
     public function __construct()
     {
@@ -183,6 +190,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeDepartment(Department $department): static
     {
         $this->departments->removeElement($department);
+
+        return $this;
+    }
+
+    public function getPosition(): ?UserPositionEnum
+    {
+        return $this->position;
+    }
+
+    public function setPosition(UserPositionEnum $position): static
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): static
+    {
+        $this->number = $number;
 
         return $this;
     }

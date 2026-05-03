@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Admin\Shared\PaginationRequest;
 use App\Entity\Department;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,28 +18,15 @@ class DepartmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Department::class);
     }
 
-    //    /**
-    //     * @return Department[] Returns an array of Department objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getPaginatedDepartments(PaginationRequest $paginationRequest): Paginator
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->setFirstResult(($paginationRequest->page - 1) * $paginationRequest->limit)
+            ->setMaxResults($paginationRequest->limit)
+            ->orderBy('d.name', 'ASC')
+            ->getQuery()
+        ;
 
-    //    public function findOneBySomeField($value): ?Department
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return new Paginator($qb);
+    }
 }

@@ -1,6 +1,9 @@
 {{ form_start(form) }}
     {{ form_row(form.login) }}
+    {{ form_row(form.number) }}
+    {{ form_row(form.position) }}
     {{ form_row(form.roles) }}
+    {{ form_row(form.departments) }}
     {{ form_row(form.password) }}
     <button type="submit" class="btn btn-primary">{{ button|default('Сохранить') }}</button>
 {{ form_end(form) }}
