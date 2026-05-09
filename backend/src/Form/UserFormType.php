@@ -38,6 +38,33 @@ class UserFormType extends AbstractType
                 ]
             )
             ->add(
+                'firstName',
+                TextType::class,
+                [
+                    'label' => 'Имя',
+                    'required' => false,
+                    'placeholder' => 'Имя'
+                ]
+            )
+            ->add(
+                'lastName',
+                TextType::class,
+                [
+                    'label' => 'Фамилия',
+                    'required' => false,
+                    'placeholder' => 'Фамилия'
+                ]
+            )
+            ->add(
+                'patronymic',
+                TextType::class,
+                [
+                    'label' => 'Отчество',
+                    'required' => false,
+                    'placeholder' => 'Отчество'
+                ]
+            )
+            ->add(
                 'roles',
                 EnumType::class,
                 [

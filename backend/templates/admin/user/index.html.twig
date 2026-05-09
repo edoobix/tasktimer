@@ -21,6 +21,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Логин</th>
+                    <th>ФИО</th>
                     <th>Роли</th>
                     <th>Должность</th>
                     <th>Отделы</th>
@@ -29,6 +30,7 @@
                     <tr>
                         <td>{{ user.id }}</td>
                         <td><a href="{{ path('app_user_show', { id : user.id }) }}">{{ user.login }}</a></td>
+                        <td>{{ user.lastName ?? '' }} {{ user.firstName ?? '' }} {{ user.patronymic ?? '' }}</td>
                         <td>
                             {% for role in user.roles %}
                                 {{ ui.role_badge(role) }}
